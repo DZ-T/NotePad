@@ -8,15 +8,15 @@
 - **Word Wrap**
 - **Change Background color**
 - **Change text color**
-- **Ask the user to save before create/Open new file**
+- **Prompt the user to save before creating/opening a new file**
 
 ### Future Plans
 
 I intend to develop this Notepad further, adding more features and functionalities along the way. Stay tuned for updates as I learn and grow in my coding journey!
-- **Fix Find & Replace Functionality:** I copied and pasted and delete ... millions of lines but it doesnt work :(
+- **Fix Find & Replace Functionality:** I copied and pasted and delete ... millions of lines but it doesn't work :(
 - **Code Refactoring:** Improve code structure and readability.
-- **UI Enhancement:** Update the user interface for improved aesthetics and usability.Did You remembre  the console app & ms-dos they have better UI than this project TBH. 
-- **Language Localization:** Implement multi-language support, exploring modern file formats for localization.I tried to create .resx files for arabic,english & french but i feel like it's an old way what about creating like .inf file for each language ?
+- **UI Enhancement:** Update the user interface for improved aesthetics and usability.Do you remember the console app and MS-DOS? They have better UIs than this project, TBH. 
+- **Language Localization:** Implement multi-language support, exploring modern file formats for localization.I tried to create .resx files for Arabic,English & French but i feel like it's an old way what about creating like .inf file for each language ?
 - **Line Numbering:** Add the ability to display line numbers for better navigation in text files.
 - **Plugins ?** who knows
 
