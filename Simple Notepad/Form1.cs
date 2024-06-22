@@ -35,56 +35,43 @@ namespace Simple_Notepad
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsTextChanged)
-            {
-                DialogResult result = MessageBox.Show("Do you want to save changes?", "Save Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                switch (result)
+                PromptSaveChangesOrContinue(() =>
                 {
-                    case DialogResult.Yes:
-                        saveToolStripMenuItem_Click(null, null); // Save changes
-                        if (string.IsNullOrEmpty(saveFileDialog1.FileName)) // Check if save was successful
-                            return; // Return if saving was canceled or failed
-                        break;
-                    case DialogResult.No:
-                        // Continue without saving changes
-                        break;
-                    case DialogResult.Cancel:
-                        // Cancel the open operation
-                        return;
+                    openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                    openFileDialog1.FileName = "";
+                    openFileDialog1.FilterIndex = 1;
+
+                    DialogResult dialogResult = openFileDialog1.ShowDialog();
+
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        LoadTextFromFile(openFileDialog1.FileName);
+                    }
+                });       
+
+        }
+        private void LoadTextFromFile(string filePath)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    richTextBox1.LoadFile(filePath, RichTextBoxStreamType.PlainText);
+                    IsTextChanged = false;
                 }
             }
-
-            openFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";  // Filter for text files or all files
-            openFileDialog1.FileName = "";  // Default file name set to empty
-            openFileDialog1.FilterIndex = 1; // Default to Text Files (*.txt)
-            DialogResult dialogResult = openFileDialog1.ShowDialog();
-
-            if (dialogResult == DialogResult.OK)
+            catch (Exception ex)
             {
-                try
-                {
-                    // Read the selected file and load its contents into richTextBox1
-                    StreamReader reader = new StreamReader(openFileDialog1.FileName);
-                    richTextBox1.LoadFile(openFileDialog1.FileName, RichTextBoxStreamType.PlainText);
-                    reader.Close();
-                    IsTextChanged = false; // Reset flag after loading file
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error loading file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show($"Error loading file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
-
-
-
-
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile();
+            
+        }
+        private void SaveFile()
         {
             // Check if the file has been saved previously (i.e., has a file path)
             if (string.IsNullOrEmpty(saveFileDialog1.FileName))
@@ -98,6 +85,7 @@ namespace Simple_Notepad
                 SaveToFile(saveFileDialog1.FileName);
             }
         }
+
         private void SaveAs()
         {
             saveFileDialog1.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -347,7 +335,7 @@ namespace Simple_Notepad
                 ReplaceForm = new ReplaceForm(); // Re-initialize if form is disposed
             }
 
-            ReplaceForm.Show(); // Show the SecondForm
+            ReplaceForm.Show(); // Show the ReplaceForm
         }
 
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
@@ -357,7 +345,28 @@ namespace Simple_Notepad
                 FindForm = new FindForm(); // Re-initialize if form is disposed
             }
 
-            FindForm.Show(); // Show the SecondForm
+            FindForm.Show(); // Show the FindForm
+        }
+
+        private void richTextBox1_SelectionChanged(object sender, EventArgs e)
+        {
+            int line = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart) + 1;
+            int column = richTextBox1.SelectionStart - richTextBox1.GetFirstCharIndexOfCurrentLine() + 1;
+            // Update the label to show current line and column
+            LineandColumnLabel.Text = $"Ln: {line}  Col: {column}";
+            // Update status bar with total number of lines
+            int Lengths = richTextBox1.TextLength; ;
+            NumberofLinesLabel.Text = $"Lines: {richTextBox1.Lines.Length}  Length: {Lengths}";
+        }
+
+        private void LineandColumnLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripStatusLabel4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
