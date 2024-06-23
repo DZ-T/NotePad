@@ -9,7 +9,8 @@
 - **Change Background color**
 - **Change text color**
 - **Prompt the user to save before creating/opening a new file**
-![Project Preview](notepad.png)
+  
+![Project Preview](Notepad.png)
 
 ### Future Plans
 
